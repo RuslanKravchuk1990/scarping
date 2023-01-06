@@ -2,9 +2,17 @@
 from bs4 import BeautifulSoup
 import requests
 
-html_text = requests.get('http://ida4ay.com/ru').text  # query variable
-soup = BeautifulSoup(html_text, 'lxml')  # make a request and get html
-# find one item
-tea = soup.find('div', class_ = 'js-product t-store__card t-store__stretch-col t-store__stretch-col_25 t-align_left t-item t-animate t-animate_started')
-tea_name = tea.find('a', class_ = 'js-store-prod-name js-product-name t-store__card__title t-name t-name_xs')
-print(tea_name)
+url = 'https://scrapingclub.com/exercise/detail_basic/' #website address variable
+
+response = requests.get(url)  # query variable
+
+soup = BeautifulSoup(response.text, 'lxml')  # make a request and get html
+
+data = soup.find('div', class_ = 'card mt-4 my-4') # find one item
+
+name = data.find('h3', class_ = 'card-title').text #find the name of the selected product
+
+price = data.find('h4').text #find the price of the selected product
+
+url_img = 'https://scrapingclub.com' + data.find('img', class_ = 'card-img-top img-fluid').get('src') #find the link of the selected product
+print(name + '\n' + price + '\n' + url_img + '\n\n')
